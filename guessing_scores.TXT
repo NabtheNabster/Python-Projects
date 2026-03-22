@@ -1,0 +1,25 @@
+{
+    "higher_lower": [
+        {
+            "name": "Nab",
+            "score": 9,
+            "difficulty": 4
+        },
+        {
+            "name": "Nabil",
+            "score": 6,
+            "difficulty": 3
+        },
+        {
+            "name": "Nabil2",
+            "score": 7,
+            "difficulty": 2
+        },
+        {
+            "name": "Nabil3",
+            "score": 7,
+            "difficulty": 5
+        }
+    ],
+    "warmer_colder": []
+}
