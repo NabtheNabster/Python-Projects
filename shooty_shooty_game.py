@@ -47,7 +47,7 @@ fire_bullet = 0
 ricochet = 0
 piercing_bullet = 0
 thorns = 0
-extra_shot = 1
+extra_shot = 0
 lifesteal = 0 
 knockback = 15
 upgrade_picked = False
@@ -122,10 +122,12 @@ def spawn_enemy():
     enemies.append([float(x), float(y), 5 + score//10, 0, 0, True, 5 + score//10, False, 0, enemy_id_counter])
     enemy_id_counter += 1
 def exit_upgrade():
-    global game_state, player_x, player_y, bullets
+    global game_state, player_x, player_y, bullets, temp_extra_shot, extra_shot,done
     game_state = "game"
     player_x = old_player_x
     player_y = old_player_y
+    extra_shot = temp_extra_shot
+    done = False
     bullets.clear()
 active_spc_upgrades = []
 spawn_enemy()
@@ -133,7 +135,9 @@ running = True
 state = "menu"
 clock = pygame.time.Clock() # Added clock for consistent speed
 current_random_upgrade = random.choice(random_upgrades)
+done = False
 while running:
+    print(extra_shot)
     enemy_spawn_delay = max(500, 3000 - score * 50)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -155,7 +159,7 @@ while running:
                     base_angle = math.atan2(dy, dx)  # in radians
 
                     # spread between bullets in degrees
-                    spread_deg = 30
+                    spread_deg = 10
                     total_bullets = extra_shot + 1  # always at least 1 bullet
 
                     # calculate starting angle so bullets are centered
@@ -318,6 +322,7 @@ while running:
                         thorns += 1
                     elif "extra shot" in chosen:
                         extra_shot += 1
+                        temp_extra_shot = extra_shot
                     exit_upgrade()
                 if bullet_rect.colliderect(spc_upgrade2_rect):
                     special_upgrades_chosen = False
@@ -334,6 +339,7 @@ while running:
                         thorns += 1
                     elif "extra shot" in chosen:
                         extra_shot += 1
+                        temp_extra_shot = extra_shot
                     exit_upgrade()
                 if bullet_rect.colliderect(spc_upgrade3_rect):
                     special_upgrades_chosen = False
@@ -350,6 +356,7 @@ while running:
                         thorns += 1
                     elif "extra shot" in chosen:
                         extra_shot += 1
+                        temp_extra_shot = extra_shot
                     exit_upgrade()
 
         if current_time - last_enemy_time > enemy_spawn_delay and game_state == "game":
@@ -393,6 +400,8 @@ while running:
                         last_hit_time = current_time
                 # Bullet collision
                 for bullet in bullets[:]:
+                    bullet_rect = pygame.Rect(bullet[0], bullet[1], 5, 5)
+
                     if enemy_rect.colliderect(bullet_rect):
 
                         if enemy[9] not in bullet[6]:
@@ -424,8 +433,9 @@ while running:
                                 bullet[4] += 1
 
                             # --- PIERCE CHECK ---
-                            if bullet[5] > piercing_bullet + 1:
-                                bullets.remove(bullet)
+                            if bullet[5] > piercing_bullet:
+                                if bullet in bullets:
+                                    bullets.remove(bullet)
                                 continue
 
                             # move bullet out of enemy to prevent sticking
@@ -453,7 +463,7 @@ while running:
             bullets.clear()
             next_upgrade_score =  3+round(next_upgrade_score*1.1)
 
-        if score >= next_special_upgrade:
+        elif score >= next_special_upgrade:
             game_state = "special upgrade"
             old_player_x = player_x
             old_player_y = player_y
@@ -461,7 +471,10 @@ while running:
             player_y = screen_height/2 + 225
             bullets.clear()
             next_special_upgrade = 8+round(next_special_upgrade*1.1)
-
+        if (game_state == "upgrade" or game_state == "special upgrade") and done == False:
+            temp_extra_shot = extra_shot
+            extra_shot = 0
+            done = True
         # Drawing
         if display_health > player_health:
             display_health -= 0.1
