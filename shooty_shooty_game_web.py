@@ -2,6 +2,7 @@ import pygame
 import math
 import random
 import json
+import asyncio
 try:
     with open("shooty_shooty_score.txt", "r") as f:
         scores = json.load(f)
@@ -136,6 +137,7 @@ clock = pygame.time.Clock() # Added clock for consistent speed
 current_random_upgrade = random.choice(random_upgrades)
 done = False
 while running:
+    await asyncio.sleep(0)
     print(extra_shot)
     enemy_spawn_delay = max(500, 3000 - score * 50)
     for event in pygame.event.get():
