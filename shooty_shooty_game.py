@@ -42,12 +42,12 @@ random_spc_upgrades = [
     "thorns",
     "extra shot"
 ]
-fire_bullet = 0
-ricochet = 0
-piercing_bullet = 0
-thorns = 0
-extra_shot = 0
-lifesteal = 0 
+fire_bullet = 1
+ricochet = 1
+piercing_bullet = 1
+thorns = 1
+extra_shot = 1
+lifesteal = 1 
 knockback = 15
 upgrade_picked = False
 spc_upgrades = []
@@ -320,8 +320,7 @@ while running:
                     elif "thorns" in chosen:
                         thorns += 1
                     elif "extra shot" in chosen:
-                        extra_shot += 1
-                        temp_extra_shot = extra_shot
+                        temp_extra_shot += 1
                     exit_upgrade()
                 if bullet_rect.colliderect(spc_upgrade2_rect):
                     special_upgrades_chosen = False
@@ -337,8 +336,8 @@ while running:
                     elif "thorns" in chosen:
                         thorns += 1
                     elif "extra shot" in chosen:
-                        extra_shot += 1
-                        temp_extra_shot = extra_shot
+                        temp_extra_shot += 1
+
                     exit_upgrade()
                 if bullet_rect.colliderect(spc_upgrade3_rect):
                     special_upgrades_chosen = False
@@ -354,8 +353,7 @@ while running:
                     elif "thorns" in chosen:
                         thorns += 1
                     elif "extra shot" in chosen:
-                        extra_shot += 1
-                        temp_extra_shot = extra_shot
+                        temp_extra_shot += 1
                     exit_upgrade()
 
         if current_time - last_enemy_time > enemy_spawn_delay and game_state == "game":
@@ -405,6 +403,9 @@ while running:
 
                         if enemy[9] not in bullet[6]:
                             bullet[6].add(enemy[9])
+                            enemy[7] = True
+                            if lifesteal > 0 :
+                                player_health += lifesteal
 
                             enemy_hit_sound.set_volume(0.4)
                             hit_channel.play(enemy_hit_sound)
@@ -449,7 +450,7 @@ while running:
                         break
                 if fire_bullet >= 1 and enemy[7] == True:
                         if current_time- enemy[8] > enemy_hit_delay:
-                            enemy[2] -= damage/(3/fire_bullet)
+                            enemy[2] -= damage*(fire_bullet/3)
                             enemy[3] = 6
                             enemy[8] = current_time
                     
@@ -545,8 +546,8 @@ while running:
                         display = f"{name} {piercing_bullet+1}"
                     elif name == "thorns" and thorns > 0:
                         display = f"{name} {thorns+1}"
-                    elif name == "extra shot" and extra_shot > 0:
-                        display = f"{name} {extra_shot+1}"
+                    elif name == "extra shot" and temp_extra_shot > 0:
+                        display = f"{name} {temp_extra_shot+1}"
                     else:
                         display = name
                     rdm_text = font.render(display.upper(), True, (255,255,255))
@@ -561,8 +562,8 @@ while running:
                         display = f"{name} {piercing_bullet+1}"
                     elif name == "thorns" and thorns > 0:
                         display = f"{name} {thorns+1}"
-                    elif name == "extra shot" and extra_shot > 0:
-                        display = f"{name} {extra_shot+1}"
+                    elif name == "extra shot" and temp_extra_shot > 0:
+                        display = f"{name} {temp_extra_shot+1}"
                     else:
                         display = name
                     rdm_text = font.render(display.upper(), True, (255,255,255))
@@ -577,8 +578,8 @@ while running:
                         display = f"{name} {piercing_bullet+1}"
                     elif name == "thorns" and thorns > 0:
                         display = f"{name} {thorns+1}"
-                    elif name == "extra shot" and extra_shot > 0:
-                        display = f"{name} {extra_shot+1}"
+                    elif name == "extra shot" and temp_extra_shot > 0:
+                        display = f"{name} {temp_extra_shot+1}"
                     else:
                         display = name
                     rdm_text = font.render(display.upper(), True, (255,255,255))
