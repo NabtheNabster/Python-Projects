@@ -54,15 +54,15 @@ spc_upgrades = []
 special_upgrades_chosen = False
 
 #Sounds
-gun_shot_sound = pygame.mixer.Sound("shot.wav")
-enemy_hit_sound = pygame.mixer.Sound("enemy hit.wav")
-enemy_death_sound = pygame.mixer.Sound("enemy_death.wav")
-pygame.mixer.music.load("shooty_shooty_music.wav")
-pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1)
-shoot_channel = pygame.mixer.Channel(0)
-hit_channel = pygame.mixer.Channel(1)
-enemy_death_channel = pygame.mixer.Channel(2)
+#gun_shot_sound = pygame.mixer.Sound("shot.wav")
+#enemy_hit_sound = pygame.mixer.Sound("enemy hit.wav")
+#enemy_death_sound = pygame.mixer.Sound("enemy_death.wav")
+#pygame.mixer.music.load("shooty_shooty_music.wav")
+#pygame.mixer.music.set_volume(0.5)
+#pygame.mixer.music.play(-1)
+#shoot_channel = pygame.mixer.Channel(0)
+#hit_channel = pygame.mixer.Channel(1)
+#enemy_death_channel = pygame.mixer.Channel(2)
 
 # Fonts
 font = pygame.font.Font(None, 36)
@@ -209,7 +209,7 @@ while running:
             if not (0 < bullet[0] < screen_width and 0 < bullet[1] < screen_height):
                 bullets.remove(bullet)
             if pygame.Rect(bullet[0], bullet[1], 5, 5).colliderect(wall_rect) and game_state == "game":
-                    hit_channel.play(enemy_hit_sound)
+                    #hit_channel.play(enemy_hit_sound)
                     bullets.remove(bullet)
             if not (110 < bullet[0] < screen_width - 110 and 110 < bullet[1] < screen_height-110) and game_state == "upgrade":
                 bullets.remove(bullet)
@@ -273,7 +273,7 @@ while running:
             if not (0 < bullet[0] < screen_width and 0 < bullet[1] < screen_height):
                 bullets.remove(bullet)
             if pygame.Rect(bullet[0], bullet[1], 5, 5).colliderect(wall_rect) and game_state == "game":
-                    hit_channel.play(enemy_hit_sound)
+                    #hit_channel.play(enemy_hit_sound)
                     bullets.remove(bullet)
             if not (110 < bullet[0] < screen_width - 110 and 110 < bullet[1] < screen_height-110) and game_state == "upgrade":
                 bullets.remove(bullet)
@@ -406,8 +406,8 @@ while running:
                         if enemy[9] not in bullet[6]:
                             bullet[6].add(enemy[9])
 
-                            enemy_hit_sound.set_volume(0.4)
-                            hit_channel.play(enemy_hit_sound)
+                            #enemy_hit_sound.set_volume(0.4)
+                            #hit_channel.play(enemy_hit_sound)
 
                             enemy[2] -= damage
 
@@ -442,8 +442,8 @@ while running:
                             bullet[1] += bullet[3]
                 if enemy[2] <= 0:
                         death_effects.append([enemy_rect.centerx, enemy_rect.centery, 0, 40])
-                        enemy_death_sound.set_volume(1)
-                        enemy_death_channel.play(enemy_death_sound)
+                        #enemy_death_sound.set_volume(1)
+                        #enemy_death_channel.play(enemy_death_sound)
                         enemies.remove(enemy)
                         score += 1
                         break
