@@ -135,6 +135,23 @@ state = "menu"
 clock = pygame.time.Clock() # Added clock for consistent speed
 current_random_upgrade = random.choice(random_upgrades)
 done = False
+# Show some initial screen
+screen.fill((30, 30, 30))
+title_text = title_font.render("Shooty Shooty Game", True, (255,255,255))
+screen.blit(title_text, (screen_width//2 - 300, 100))
+start_text = font.render("Click or press any key to start", True, (255,255,255))
+screen.blit(start_text, (screen_width//2 - 220, 300))
+pygame.display.update()
+
+# Wait for user action
+waiting_for_input = True
+while waiting_for_input:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+            waiting_for_input = False
 while running:
     print(extra_shot)
     enemy_spawn_delay = max(500, 3000 - score * 50)
