@@ -42,12 +42,12 @@ random_spc_upgrades = [
     "thorns",
     "extra shot"
 ]
-fire_bullet = 1
+fire_bullet = 0
 ricochet = 1
 piercing_bullet = 1
-thorns = 1
-extra_shot = 1
-lifesteal = 1 
+thorns = 0
+extra_shot = 0
+lifesteal = 0 
 knockback = 15
 upgrade_picked = False
 spc_upgrades = []
@@ -136,7 +136,6 @@ clock = pygame.time.Clock() # Added clock for consistent speed
 current_random_upgrade = random.choice(random_upgrades)
 done = False
 while running:
-    print(extra_shot)
     enemy_spawn_delay = max(500, 3000 - score * 50)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -431,6 +430,10 @@ while running:
                                     bullet[3] *= -1  # flip Y
 
                                 bullet[4] += 1
+
+                                # move bullet out of enemy to prevent sticking
+                                bullet[0] += bullet[2]
+                                bullet[1] += bullet[3]
 
                             # --- PIERCE CHECK ---
                             if bullet[5] > piercing_bullet:
