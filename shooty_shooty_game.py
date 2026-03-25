@@ -18,7 +18,6 @@ text_blink = 1000
 text_flash = 0
 last_update = pygame.time.get_ticks()
 fps = 1000
-shooter_image = pygame.image.load("shooter.png")
 highscore = float("inf")
 
 # Window
@@ -119,7 +118,7 @@ def spawn_enemy():
         x, y = -50, random.randint(0, screen_height)
     else:
         x, y = screen_width + 50, random.randint(0, screen_height)
-    enemies.append([float(x), float(y), 5 + score//10, 0, 0, True, 5 + score//10, False, 0, enemy_id_counter])
+    enemies.append([float(x), float(y), 5 + score//10, 0, 0, True, 5 + score//10, False, 0, enemy_id_counter, 1 + score//20])
     enemy_id_counter += 1
 def exit_upgrade():
     global game_state, player_x, player_y, bullets, temp_extra_shot, extra_shot,done
@@ -393,7 +392,7 @@ while running:
                 # Damage player
                 if enemy_rect.colliderect(player_rect):
                     if current_time - last_hit_time > damage_delay:
-                        player_health -= 1
+                        player_health -= enemy[10]
                         if thorns >= 1:
                             enemy[2] -= damage/(2/thorns)
                         hit_flash = 10
