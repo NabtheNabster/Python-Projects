@@ -77,6 +77,8 @@ last_shot_time = 0
 enemy_hit_delay = 500
 gun_shot_delay = 300
 game_over_time = None
+upgrade_shot_delay = 500
+start_upgrade_time = 0
 
 # Player
 player_x = screen_width/2
@@ -136,7 +138,6 @@ clock = pygame.time.Clock() # Added clock for consistent speed
 current_random_upgrade = random.choice(random_upgrades)
 done = False
 while running:
-    print(extra_shot)
     enemy_spawn_delay = max(500, 3000 - score * 50)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -163,12 +164,19 @@ while running:
 
                     # calculate starting angle so bullets are centered
                     start_angle = base_angle - math.radians(spread_deg * (total_bullets - 1) / 2)
-
-                    for i in range(total_bullets):
-                        angle = start_angle + math.radians(spread_deg * i)
-                        new_dx = math.cos(angle)
-                        new_dy = math.sin(angle)
-                        bullets.append([gun_x, gun_y, new_dx, new_dy, 0, 0, set()])
+                    if game_state == "special upgrade" or game_state == "upgrade":
+                        if current_time - start_upgrade_time > upgrade_shot_delay:
+                            for i in range(total_bullets):
+                                angle = start_angle + math.radians(spread_deg * i)
+                                new_dx = math.cos(angle)
+                                new_dy = math.sin(angle)
+                                bullets.append([gun_x, gun_y, new_dx, new_dy, 0, 0, set()])
+                    else:
+                        for i in range(total_bullets):
+                            angle = start_angle + math.radians(spread_deg * i)
+                            new_dx = math.cos(angle)
+                            new_dy = math.sin(angle)
+                            bullets.append([gun_x, gun_y, new_dx, new_dy, 0, 0, set()])
                 last_shot_time = current_time
     current_time = pygame.time.get_ticks()
     if state == "menu":
@@ -439,8 +447,8 @@ while running:
                                 continue
 
                             # move bullet out of enemy to prevent sticking
-                            bullet[0] += bullet[2]
-                            bullet[1] += bullet[3]
+                            bullet[0] += bullet[2]*1.2
+                            bullet[1] += bullet[3]*1.2
                 if enemy[2] <= 0:
                         death_effects.append([enemy_rect.centerx, enemy_rect.centery, 0, 40])
                         enemy_death_sound.set_volume(1)
@@ -455,6 +463,7 @@ while running:
                             enemy[8] = current_time
                     
         if score  >= next_upgrade_score:
+            start_upgrade_time = current_time
             game_state = "upgrade" 
             old_player_x = player_x
             old_player_y = player_y
@@ -464,6 +473,7 @@ while running:
             next_upgrade_score =  3+round(next_upgrade_score*1.1)
 
         elif score >= next_special_upgrade:
+            start_upgrade_time = current_time
             game_state = "special upgrade"
             old_player_x = player_x
             old_player_y = player_y
