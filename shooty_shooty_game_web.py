@@ -44,7 +44,7 @@ random_spc_upgrades = [
 ]
 fire_bullet = 0
 ricochet = 1
-piercing_bullet = 1
+piercing_bullet = 0
 thorns = 0
 extra_shot = 0
 lifesteal = 0 

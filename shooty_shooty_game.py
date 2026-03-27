@@ -42,12 +42,12 @@ random_spc_upgrades = [
     "thorns",
     "extra shot"
 ]
-fire_bullet = 1
+fire_bullet = 0
 ricochet = 1
-piercing_bullet = 1
-thorns = 1
-extra_shot = 1
-lifesteal = 1 
+piercing_bullet = 0
+thorns = 0
+extra_shot = 0
+lifesteal = 0
 knockback = 15
 upgrade_picked = False
 spc_upgrades = []
@@ -433,7 +433,7 @@ while running:
                                 bullet[4] += 1
 
                             # --- PIERCE CHECK ---
-                            if bullet[5] > piercing_bullet:
+                            elif bullet[5] > piercing_bullet:
                                 if bullet in bullets:
                                     bullets.remove(bullet)
                                 continue
@@ -625,6 +625,16 @@ while running:
                 max_health = 10
                 player_x = screen_width/2
                 player_y = screen_height/2
+                score = 0
+                fire_bullet = 0
+                ricochet = 0
+                piercing_bullet = 0
+                thorns = 0
+                extra_shot = 0
+                lifesteal = 0
+                knockback = 15
+                next_upgrade_score = 3
+                next_special_upgrade = 8
                 enemies.clear()
                 state = "menu"
         score_text = font.render(f"SCORE:{str(score)}", True, (255,255,255))
