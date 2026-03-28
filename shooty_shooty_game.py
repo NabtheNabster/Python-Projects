@@ -43,7 +43,7 @@ random_spc_upgrades = [
     "extra shot"
 ]
 fire_bullet = 0
-ricochet = 1
+ricochet = 0
 piercing_bullet = 0
 thorns = 0
 extra_shot = 0
