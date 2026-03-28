@@ -83,7 +83,7 @@ start_upgrade_time = 0
 # Player
 player_x = screen_width/2
 player_y = screen_height/2
-player_speed = 2.5 
+player_speed = 5.5 
 player_size = 50
 player_pos_old = True
 player_health = 10
@@ -302,7 +302,7 @@ while running:
                         lifesteal += 0.4
 
                     elif current_random_upgrade == "player speed":
-                        player_speed += 0.5
+                        player_speed += 1
 
                     elif current_random_upgrade == "bullet speed":
                         bullet_speed += 2
@@ -310,7 +310,7 @@ while running:
                     elif current_random_upgrade == "knockback":
                         knockback += 3
                     elif current_random_upgrade == "fire rate":
-                        gun_shot_delay -= 50
+                        gun_shot_delay -= 75
                     upgrade_picked = False
                     exit_upgrade()
             if game_state == "special upgrade":
@@ -447,8 +447,8 @@ while running:
                                 continue
 
                             # move bullet out of enemy to prevent sticking
-                            bullet[0] += bullet[2]*1.2
-                            bullet[1] += bullet[3]*1.2
+                            bullet[0] += bullet[2]*1.3
+                            bullet[1] += bullet[3]*1.3
                 if enemy[2] <= 0:
                         death_effects.append([enemy_rect.centerx, enemy_rect.centery, 0, 40])
                         enemy_death_sound.set_volume(1)
@@ -613,6 +613,9 @@ while running:
             elif health_ratio > 0:
                 po_color = (200,0,0)
                 p_color = (255,0,0)
+            else:
+                po_color = (200,0,200)
+                p_color = (255,0,255)
             player_hb = pygame.Rect(player_rect.x+4, player_rect.y+4, 42*health_ratio, 42)
             if hit_flash > 0:
                 pygame.draw.rect(screen, (255,255,255), player_rect,4)

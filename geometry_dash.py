@@ -7,6 +7,12 @@ screen_width = screen.get_width()
 screen_height = screen.get_height()
 alive = True
 ground_rect = pygame.Rect(0, screen_height/2 + 50, screen_width, screen_height/2 - 50)
+font = pygame.font.Font(None, 100)
+death_time = 0
+respawn_delay = 1500
+attempts = 1
+text_x = 300
+
 
 class Player:
     def __init__(self, x, y, vely, velx):
@@ -63,15 +69,17 @@ class Spike:
         self.base_image = pygame.transform.scale(spike_image, (self.display_size, self.display_size))
 
     def collision(self, player_rect):
-        global alive
-        spike_rect = pygame.Rect(self.x, self.y, self.display_size, self.display_size)
-        if spike_rect.colliderect(player_rect):
+        global alive, attempts , death_time, scroll_speed
+        spike_rect = pygame.Rect(self.x, self.y, self.display_size-30, self.display_size-10)
+        if spike_rect.colliderect(player_rect) and alive:
             alive = False
+            death_time = current_time
+            scroll_speed = 0
 
     def draw(self, screen):
         screen.blit(self.base_image, (self.x, self.y))
 
-scroll_speed = 10
+scroll_speed = 8.3
 player = Player(100, screen_height/2, 0, 0)
 spikes = [[screen_width + 200, screen_height/2]]
 
@@ -80,6 +88,18 @@ clock = pygame.time.Clock()
 running = True
 
 while running:
+    current_time = pygame.time.get_ticks()
+    if not alive and current_time - death_time >= respawn_delay:
+        attempts += 1
+        alive = True
+        scroll_speed = 8.3
+        player.x = 100
+        player.y = screen_height/2
+        player.vely = 0
+        player.angle = 0
+        text_x = 300
+        spikes.clear()
+        spikes.append([screen_width + 200, screen_height/2])
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -88,8 +108,11 @@ while running:
                 running = False
             if event.key == pygame.K_SPACE:
                 player.jump(15)
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN :
             player.jump(15)
+    mouse = pygame.mouse.get_pressed()
+    if mouse[0]:
+        player.jump(15)
 
     screen.fill((0,0,0))
     if alive == True:
@@ -106,10 +129,27 @@ while running:
         spike.draw(screen)
         if s[0] < -100:
             spikes.remove(s)
+    for s in spikes[:]:
+        spike = Spike(s[0] + 50, s[1])
+        spike.collision(player_rect)
+        spike.draw(screen)
+        if s[0] < -100:
+            spikes.remove(s)
+    for s in spikes[:]:
+        spike = Spike(s[0] + 100, s[1])
+        spike.collision(player_rect)
+        spike.draw(screen)
+        if s[0] < -100:
+            spikes.remove(s)
 
     if len(spikes) == 0 or spikes[-1][0] < screen_width - 300:
         spikes.append([screen_width + 100, screen_height/2])
+    text_x -= scroll_speed
 
+    screen.blit(
+        font.render("Attempt: {}".format(attempts), True, (255, 255, 255)),
+        (text_x, 50)
+    )
     pygame.draw.rect(screen, (0,0,255), ground_rect)
     pygame.display.update()
     clock.tick(60)

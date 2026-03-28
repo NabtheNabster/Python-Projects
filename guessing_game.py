@@ -86,20 +86,19 @@ def guessing_game():
                     diff = player.get("difficulty")
                     diff_name = difficulty_names.get(diff, "Unknown")
                     print(f"{i}. {player['name']} - {player['score']} guesses - {diff_name}")
+        min_num, max_num = get_range()
+        if max_num - min_num <= 50:
+            difficulty = 1
+        elif max_num - min_num <= 100:
+            difficulty = 2
+        elif max_num - min_num <= 150:
+            difficulty = 3
+        elif max_num - min_num <= 200:
+            difficulty = 4
+        elif max_num - min_num > 200:
+            difficulty = 5
+        number = random.randint(min_num, max_num)
         while True:
-            min_num, max_num = get_range()
-            if max_num - min_num <= 50:
-                difficulty = 1
-            elif max_num - min_num <= 100:
-                difficulty = 2
-            elif max_num - min_num <= 150:
-                difficulty = 3
-            elif max_num - min_num <= 200:
-                difficulty = 4
-            elif max_num - min_num > 200:
-                difficulty = 5
-            number = random.randint(min_num, max_num)
-
             guess = get_guess(min_num, max_num)
             score += 1
             if guess > number:
@@ -132,6 +131,7 @@ def guessing_game():
                     print("Score saved!")
                 choice = input("Play again? (yes/no) ")
                 if choice.lower() == "yes":
+                    min_num, max_num = get_range()
                     number = random.randint(min_num, max_num)
                     score = 0
                     continue

@@ -19,6 +19,16 @@
             "name": "Nabil3",
             "score": 7,
             "difficulty": 5
+        },
+        {
+            "name": "Nabpweidhiowefhkd ",
+            "score": 6,
+            "difficulty": 2
+        },
+        {
+            "name": "Salms",
+            "score": 7,
+            "difficulty": 2
         }
     ],
     "warmer_colder": []

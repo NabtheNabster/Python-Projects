@@ -1,1 +1,1 @@
-[{"task": "brush teeth", "done": true}, {"task": "wear braces", "done": false}, {"task": "dhur", "done": false}, {"task": "asr", "done": false}, {"task": "maghrib", "done": false}, {"task": "isha", "done": false}, {"task": "fajr", "done": false}, {"task": "something", "done": false}]
+[{"task": "brush teeth", "done": true}, {"task": "wear braces", "done": false}, {"task": "dhur", "done": true}, {"task": "asr", "done": false}, {"task": "maghrib", "done": false}, {"task": "isha", "done": false}, {"task": "fajr", "done": false}]
