@@ -1,5 +1,19 @@
 import pygame
 import random
+import json
+try:
+        with open("snake.txt", "r") as r:
+            scores = json.load(r)
+except (FileNotFoundError, json.JSONDecodeError):
+    scores = {
+        "greedy":{
+            "Average_score": [],
+            "Average_aps": [],  
+            "Best_score": [],
+            "Worst_score": [],
+            "Average_time_per_run": []
+        }
+    }
 pygame.init()
 
 cell_size = 20
@@ -27,7 +41,7 @@ snake_length = 1
 steps = 0
 run = 1
 # Keep track of how many runs you want
-num_runs = 1000
+num_runs = 10
 current_run = 0
 
 # --- Main loop ---
@@ -36,7 +50,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+    if current_run == num_runs:
+        running = False
     if current_run < num_runs:
         steps += 1
         head = snake_body[0]
@@ -117,4 +132,11 @@ while running:
     Avg_time_per_run = (current_time/1000)/run if run > 0 else 0
     screen.blit(font.render(f'Average time per run: {Avg_time_per_run:.3f}', True, (255,255,255)), (10,220))
     pygame.display.update()
-    clock.tick(100) 
+    clock.tick(100)
+scores["greedy"]["Average_score"].append(avg_score)
+scores["greedy"]["Average_aps"].append(avg_aps)
+scores["greedy"]["Best_score"].append(best_score)
+scores["greedy"]["Worst_score"].append(worst_score)
+scores["greedy"]["Average_time_per_run"].append(Avg_time_per_run) 
+with open("snake.txt", "w") as w:
+    json.dump(scores, w , indent=4)
