@@ -83,7 +83,7 @@ start_upgrade_time = 0
 # Player
 player_x = screen_width/2
 player_y = screen_height/2
-player_speed = 5.5 
+player_speed = 1.5 
 player_size = 50
 player_pos_old = True
 player_health = 10
