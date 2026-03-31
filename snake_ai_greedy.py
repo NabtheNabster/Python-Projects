@@ -2,18 +2,13 @@ import pygame
 import random
 import json
 try:
-        with open("snake.txt", "r") as r:
-            scores = json.load(r)
+    with open("snake.txt", "r") as r:
+        scores = json.load(r)
 except (FileNotFoundError, json.JSONDecodeError):
-    scores = {
-        "greedy":{
-            "Average_score": [],
-            "Average_aps": [],  
-            "Best_score": [],
-            "Worst_score": [],
-            "Average_time_per_run": []
-        }
-    }
+    scores = {}
+
+if "runs" not in scores:
+    scores["runs"] = []
 pygame.init()
 
 cell_size = 20
@@ -84,6 +79,7 @@ while running:
         # --- Apple collision ---
         if new_head == apple_pos:
             snake_length += 1
+            apple_pos = [random.randint(0, cols-1), random.randint(0, rows-1)]
             while apple_pos in snake_body:
                 apple_pos = [random.randint(0, cols-1), random.randint(0, rows-1)]
 
@@ -133,10 +129,22 @@ while running:
     screen.blit(font.render(f'Average time per run: {Avg_time_per_run:.3f}', True, (255,255,255)), (10,220))
     pygame.display.update()
     clock.tick(100)
-scores["greedy"]["Average_score"].append(avg_score)
-scores["greedy"]["Average_aps"].append(avg_aps)
-scores["greedy"]["Best_score"].append(best_score)
-scores["greedy"]["Worst_score"].append(worst_score)
-scores["greedy"]["Average_time_per_run"].append(Avg_time_per_run) 
+import time
+
+new_entry = {
+    "AI": "greedy",
+    "Runs": run-1,
+    "Time": time.strftime("%Y-%m-%d %H:%M:%S"),
+    "Average_score": avg_score,
+    "Average_aps": avg_aps,
+    "Best_score": best_score,
+    "Worst_score": worst_score,
+    "fps": 100,
+    "Consistency": worst_score/best_score if best_score > 0 else 0,
+    "Average_time_per_run": Avg_time_per_run
+}
+
+scores["runs"].append(new_entry)
+
 with open("snake.txt", "w") as w:
-    json.dump(scores, w , indent=4)
+    json.dump(scores, w, indent=4)

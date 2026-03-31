@@ -1,29 +1,64 @@
 {
-    "greedy": {
-        "Average_score": [
-            33.8,
-            45.3,
-            38.6
-        ],
-        "Average_aps": [
-            0.057761367501211344,
-            0.05041040159725872,
-            0.05558394248598655
-        ],
-        "Best_score": [
-            43,
-            56,
-            51
-        ],
-        "Worst_score": [
-            14,
-            32,
-            19
-        ],
-        "Average_time_per_run": [
-            5.774909090909091,
-            8.777181818181818,
-            7.019833333333334
-        ]
-    }
+    "runs": [
+        {
+            "AI": "greedy",
+            "Runs": 10,
+            "Time": "2026-03-30 21:15:47",
+            "Average_score": 36.7,
+            "Average_aps": 0.053698789207264896,
+            "Best_score": 48,
+            "Worst_score": 13,
+            "fps": 100,
+            "Consistency": 0.2708333333333333,
+            "Average_time_per_run": 6.627909090909091
+        },
+        {
+            "AI": "hamiltonian",
+            "Runs": 1,
+            "Time": "2026-03-30 21:33:04",
+            "Average_score": 599.0,
+            "Average_aps": 0.006318632053080728,
+            "Best_score": 599,
+            "Worst_score": 599,
+            "fps": 100,
+            "Consistency": 1.0,
+            "Average_time_per_run": 504.845
+        },
+        {
+            "AI": "astar",
+            "Runs": 10,
+            "Time": "2026-03-30 21:37:22",
+            "Average_score": 89.7,
+            "Average_aps": 0.049419085229754044,
+            "Best_score": 121,
+            "Worst_score": 54,
+            "fps": 100,
+            "Consistency": 0.4462809917355372,
+            "Average_time_per_run": 17.76081818181818
+        },
+        {
+            "AI": "astar",
+            "Runs": 0,
+            "Time": "2026-03-31 01:42:30",
+            "Average_score": 0,
+            "Average_aps": 0,
+            "Best_score": 0,
+            "Worst_score": 0,
+            "fps": 100,
+            "Consistency": 0,
+            "Average_time_per_run": 2.535
+        },
+        {
+            "AI": "astar",
+            "Runs": 1,
+            "Time": "2026-03-31 01:47:51",
+            "Average_score": 80.0,
+            "Average_aps": 0.05305039787798409,
+            "Best_score": 80,
+            "Worst_score": 80,
+            "fps": 100,
+            "Consistency": 1.0,
+            "Average_time_per_run": 151.9315
+        }
+    ]
 }

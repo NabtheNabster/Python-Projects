@@ -1,5 +1,14 @@
 import pygame
 import random
+import json
+try:
+    with open("snake.txt", "r") as r:
+        scores = json.load(r)
+except (FileNotFoundError, json.JSONDecodeError):
+    scores = {}
+
+if "runs" not in scores:
+    scores["runs"] = []
 pygame.init()
 
 cell_size = 20
@@ -26,7 +35,7 @@ snake_dir = [1, 0]       # initial direction (dx, dy)
 snake_length = 1
 steps = 0
 # Keep track of how many runs you want
-num_runs = 1000
+num_runs = 1
 current_run = 0
 run = 1
 
@@ -80,7 +89,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+    if current_run == num_runs:
+        running = False
     if current_run < num_runs:
         steps += 1
         head = snake_body[0]
@@ -93,8 +103,12 @@ while running:
             next_cell = path[0]
             snake_dir = [next_cell[0] - head[0], next_cell[1] - head[1]]
         else:
-            # fallback (important!)
-            snake_dir = snake_dir
+            moves = [[1,0], [-1,0], [0,1], [0,-1]]
+            for move in moves:
+                nx, ny = head[0] + move[0], head[1] + move[1]
+                if 0 <= nx < cols and 0 <= ny < rows and [nx, ny] not in snake_body:
+                    snake_dir = move
+                    break
                 
 
         # --- Move snake ---
@@ -106,6 +120,7 @@ while running:
         # --- Apple collision ---
         if new_head == apple_pos:
             snake_length += 1
+            apple_pos = [random.randint(0, cols-1), random.randint(0, rows-1)]
             while apple_pos in snake_body:
                 apple_pos = [random.randint(0, cols-1), random.randint(0, rows-1)]
 
@@ -154,4 +169,23 @@ while running:
     Avg_time_per_run = (current_time/1000)/run if run > 0 else 0
     screen.blit(font.render(f'Average time per run: {Avg_time_per_run:.3f}', True, (255,255,255)), (10,220))
     pygame.display.update()
-    clock.tick(100) 
+    clock.tick(5) 
+import time
+
+new_entry = {
+    "AI": "astar",
+    "Runs": run-1,
+    "Time": time.strftime("%Y-%m-%d %H:%M:%S"),
+    "Average_score": avg_score,
+    "Average_aps": avg_aps,
+    "Best_score": best_score,
+    "Worst_score": worst_score,
+    "fps": 100,
+    "Consistency": worst_score/best_score if best_score > 0 else 0,
+    "Average_time_per_run": Avg_time_per_run
+}
+
+scores["runs"].append(new_entry)
+
+with open("snake.txt", "w") as w:
+    json.dump(scores, w, indent=4)
